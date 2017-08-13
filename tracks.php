@@ -8,7 +8,7 @@ if (isset($_GET['file'])) {
 		$file = $files[0];
 		echo file_get_contents("./out/$file");
 	} else {
-		echo json_decode(['error' => "File not found"]])
+		echo json_decode(['error' => "File not found"]);
 	}
 } else {
 	$files = array_slice(scandir("./out/"), 2);

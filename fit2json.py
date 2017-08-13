@@ -62,6 +62,9 @@ if len(sys.argv) < 2:
     print("Give a fitfile as the only parameter")
     sys.exit(1)
 
+with file('.google-maps-key') as f:
+    gMapsKey = f.read()
+
 fitFilename = sys.argv[1]
 interpolate = False
 if len(sys.argv) is 3:
@@ -120,7 +123,7 @@ for record in fitfile.get_messages('session'):
         if record_data.name == 'start_position_long':
             start['lng'] = semicircleToGradient(record_data.value)
 
-gmaps = googlemaps.Client(key='<api-key>')
+gmaps = googlemaps.Client(key=gMapsKey)
 reverse_geocode_result = gmaps.reverse_geocode((start['lat'], start['lng']))
 
 sport['location'] = reverse_geocode_result[0]['address_components'][2]['long_name']
