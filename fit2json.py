@@ -65,6 +65,7 @@ if len(sys.argv) < 2:
 with file('.google-maps-key') as f:
     gMapsKey = f.read()
 
+
 fitFilename = sys.argv[1]
 interpolate = False
 if len(sys.argv) is 3:
