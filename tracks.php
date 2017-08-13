@@ -14,3 +14,4 @@ if (isset($_GET['file'])) {
 	$files = array_slice(scandir("./out/"), 2);
 	echo json_encode($files);
 }
+
