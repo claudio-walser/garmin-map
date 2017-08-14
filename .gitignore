@@ -1,5 +1,5 @@
 .google-maps-key
-out/
-fit/
+out/*
+fit/*
 !out/.keep
 !fit/.keep
