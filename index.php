@@ -96,6 +96,7 @@
       <div class="wrapper">Geschwindigkeit: <span id="speed"></span></div>
       <div class="wrapper">Datum und Zeit: <span id="datetime"></span></div>
       <div class="wrapper">Temperatur: <span id="temperature"></span></div>
+      <div class="wrapper">Dauer: <span id="duration"></span></div>
 
       <div class="twrapper">
         <input id="speed-factor" type="text" value="5" />
@@ -247,16 +248,18 @@
             } else if (data.type == 'Wandern') {
               currentIcon = 'http://maps.google.com/mapfiles/ms/micons/hiker.png'
             }
-            initActivity(data.start, data.end, data.points, data.speed)
+            initActivity(data.start, data.end, data.points, data.speed, data.duration)
             $("#timeline").trigger('change');
           }
         });
   }
 
-  function initActivity(start, end, points, speed) {
+  function initActivity(start, end, points, speed, duration) {
         stop(); 
         numPoints = points.length -1;
+        $('#duration').html(duration + " " + numPoints);
         
+
         var timeline = $('#timeline');
         timeline.attr('max', numPoints);
         timeline.val(0);

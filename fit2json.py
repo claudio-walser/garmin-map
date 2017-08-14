@@ -13,6 +13,9 @@ def semicircleToGradient(semicircle):
     return int(semicircle) * ( 180.0 / 2 ** 31 )
 
 def stringifyDatetime(sport):
+    sport['start']['dateobject'] = sport['start']['dateobject'].strftime('%Y-%m-%d %H:%M:%S')
+    sport['end']['dateobject'] = sport['end']['dateobject'].strftime('%Y-%m-%d %H:%M:%S')
+
     for point in sport['points']:
         dateTime = point['dateobject']
         point['dateobject'] = dateTime.strftime('%Y-%m-%d %H:%M:%S')
@@ -77,23 +80,6 @@ if not os.path.isfile(fitFilename):
 
 fitfile = FitFile(fitFilename)
 
-# print "record"
-# for record in fitfile.get_messages('record'):
-
-#     # Go through all the data entries in this record
-#     for record_data in record:
-
-#         # Print the records name and value (and units if it has any)
-#         if record_data.units:
-#             print " * %s: %s %s" % (
-#                 record_data.name, record_data.value, record_data.units,
-#             )
-#         else:
-#             print "* %s: %s" % (record_data.name, record_data.value)
-#     print
-# sys.exit(1)
-
-
 sport = {
     'type': False,
     'location': False,
@@ -114,37 +100,17 @@ sport = {
 
 }  
 
-start = {}
-for record in fitfile.get_messages('session'):
 
-    # Go through all the data entries in this record
-    for record_data in record:
-        if record_data.name == 'start_position_lat':
-            start['lat'] = semicircleToGradient(record_data.value)
-        if record_data.name == 'start_position_long':
-            start['lng'] = semicircleToGradient(record_data.value)
-
-gmaps = googlemaps.Client(key=gMapsKey)
-reverse_geocode_result = gmaps.reverse_geocode((start['lat'], start['lng']))
-
-sport['location'] = reverse_geocode_result[0]['address_components'][2]['long_name']
-sport['start'] = start
 for sportRecord in fitfile.get_messages('sport'):
     for record_data in sportRecord:
         if record_data.name == 'name':
             sport['type'] = record_data.value
 
 
-for sportRecord in fitfile.get_messages('event'):
-    for record_data in sportRecord:
-        if record_data.name == 'timestamp':
-            sport['datetime'] = str(record_data.value)
-
-
-for sportRecord in fitfile.get_messages('record'):
-    for record_data in sportRecord:
-        if record_data.name == 'timestamp':
-            sport['datetime'] = str(record_data.value)
+# for sportRecord in fitfile.get_messages('event'):
+#     for record_data in sportRecord:
+#         if record_data.name == 'timestamp':
+#             sport['datetime'] = str(record_data.value)
 
 lastPoint = False
 maxSpeed = False
@@ -183,7 +149,6 @@ for record in fitfile.get_messages('record'):
 
         if record_data.name == 'timestamp':
             sportRecord['dateobject'] = record_data.value
-            sportRecord['datetimestring'] = str(record_data.value)
 
 
 
@@ -209,19 +174,36 @@ for record in fitfile.get_messages('record'):
         lastPoint = sportRecord
         sport['points'].append(sportRecord)
 
+firstPoint = sport['points'][0]
+lastPoint = sport['points'][-1]
 
 
+start = {
+    'lat': firstPoint['lat'],
+    'lng': firstPoint['lng'],
+    'dateobject': firstPoint['dateobject']
+}
+
+gmaps = googlemaps.Client(key=gMapsKey)
+reverse_geocode_result = gmaps.reverse_geocode((start['lat'], start['lng']))
+
+sport['location'] = reverse_geocode_result[0]['address_components'][2]['long_name']
+sport['start'] = start
 
 sport['end'] = {
     'lat': lastPoint['lat'],
-    'lng': lastPoint['lng']
+    'lng': lastPoint['lng'],
+    'dateobject': lastPoint['dateobject']   
 }
+timeDiff = lastPoint['dateobject'] - firstPoint['dateobject']
+sport['duration'] = timeDiff.total_seconds()
+
 sport['speed'] = {
     'min': minSpeed,
-    'max': maxSpeed
+    'max': maxSpeed,
 }
 
-filename = "./out/%s-%s-%s.json" % (sport['type'], sport['location'], sport['datetime'])
+filename = "./out/%s-%s-%s.json" % (sport['type'], sport['location'], sport['start']['dateobject'])
 with open(filename, "w") as jsonFile:
     jsonFile.write(json.dumps(stringifyDatetime(sport), sort_keys=True, indent=4))
 
