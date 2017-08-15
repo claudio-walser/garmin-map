@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 from fitparse import FitFile
 from datetime import timedelta, datetime
@@ -14,12 +15,12 @@ def semicircleToGradient(semicircle):
 
 def stringifyDatetime(sport):
     sport['start']['dateobject'] = sport['start']['dateobject'].strftime('%Y-%m-%d %H:%M:%S')
-    sport['end']['dateobject'] = sport['end']['dateobject'].strftime('%Y-%m-%d %H:%M:%S')
+    sport['end']['dateobject'] = sport['end']['dateobject'].strftime('%Y %d %m %H:%M:%S')
 
     for point in sport['points']:
         dateTime = point['dateobject']
         point['dateobject'] = dateTime.strftime('%Y-%m-%d %H:%M:%S')
-        point['datetime'] = dateTime.strftime('%Y-%m-%d %H:%M:%S')
+        point['datetime'] = dateTime.strftime('%Y/%m/%d %H:%M:%S')
         point['time'] = dateTime.strftime('%H:%M:%S')
         point['date'] = dateTime.strftime('%Y-%m-%d')
 
@@ -29,27 +30,95 @@ def interpolateLinear(start, end):
     timeDiff = end['dateobject'] - start['dateobject']
     num = timeDiff.seconds - 1
 
-    interpolated = []
-
-    latDiff = end['lat'] - start['lat']
-    lngDiff = end['lng'] - start['lng']
     if num == 0:
         return []
+
+    interpolated = []
+
+    # calculate coordinates steps
+    latDiff = end['lat'] - start['lat']
+    lngDiff = end['lng'] - start['lng']
 
     latSteps = latDiff / num
     lngSteps = lngDiff / num
 
+    # calculate altitude steps
+    if start['altitude'] > end['altitude']:
+        altitudeDiff = start['altitude'] - end['altitude']
+    else:
+        altitudeDiff = end['altitude'] - start['altitude']
+
+    if altitudeDiff > 0:
+        altitudeStep = altitudeDiff / num
+    else:
+        altitudeStep = 0
+
+    # calculate speed steps
+    if start['speed'] > end['speed']:
+        speedDiff = start['speed'] - end['speed']
+    else:
+        speedDiff = end['speed'] - start['speed']
+
+    if speedDiff > 0:
+        speedStep = speedDiff / num
+    else:
+        speedStep = 0
+
+
+    # calculate temperature steps
+    if start['temperature'] > end['temperature']:
+        temperatureDiff = start['temperature'] - end['temperature']
+    else:
+        temperatureDiff = end['temperature'] - start['temperature']
+
+    if temperatureDiff > 0:
+        temperatureStep = temperatureDiff / num
+    else:
+        temperatureStep = 0
+
+
     for i in range(0, num):
         currentStep = i+1        
 
+        # interpolate coordinates
         latTarget = start['lat'] + (currentStep * latSteps)
         lngTarget = start['lng'] + (currentStep * lngSteps)
 
+        # interpolate altitude
+        if altitudeDiff == 0:
+            altitudeTarget = start['altitude']
+        elif start['altitude'] > end['altitude']:
+            altitudeTarget = start['altitude'] - (altitudeStep * currentStep)
+        else:
+            altitudeTarget = start['altitude'] + (altitudeStep * currentStep)
+
+        altitudeTarget = round(altitudeTarget, 2)
+
+        # interpolate speed
+        if speedDiff == 0:
+            speedTarget = start['speed']
+        elif start['speed'] > end['speed']:
+            speedTarget = start['speed'] - (speedStep * currentStep)
+        else:
+            speedTarget = start['speed'] + (speedStep * currentStep)
+
+        speedTarget = round(speedTarget, 2)
+
+        # interpolate temperature
+        if temperatureDiff == 0:
+            temperatureTarget = start['temperature']
+        elif start['temperature'] > end['temperature']:
+            temperatureTarget = start['temperature'] - (temperatureStep * currentStep)
+        else:
+            temperatureTarget = start['temperature'] + (temperatureStep * currentStep)
+
+        temperatureTarget = int(temperatureTarget)
+
         point = {
             'type': 'interpolated',
-            'altitude': start['altitude'],
-            'speed': start['speed'],
-            'temperature': start['temperature'],
+            'altitude': altitudeTarget,
+            'speed': speedTarget,
+            'temperature': temperatureTarget,
             'lat': latTarget,
             'lng': lngTarget,
             'dateobject': start['dateobject'] + timedelta(seconds=currentStep)
@@ -133,10 +202,10 @@ for record in fitfile.get_messages('record'):
     # Go through all the data entries
     for record_data in record:
         if record_data.name is 'altitude':
-            sportRecord['altitude'] = record_data.value
+            sportRecord['altitude'] = round(record_data.value, 2)
 
         if record_data.name == 'speed':
-            sportRecord['speed'] = record_data.value
+            sportRecord['speed'] = round(record_data.value, 2)
 
         if record_data.name == 'temperature':
             sportRecord['temperature'] = record_data.value
@@ -203,7 +272,11 @@ sport['speed'] = {
     'max': maxSpeed,
 }
 
-filename = "./out/%s-%s-%s.json" % (sport['type'], sport['location'], sport['start']['dateobject'])
+targetDirectory = "./out/%s" % (sport['start']['dateobject'].strftime("%Y-%m-%d"))
+if not os.path.isdir(targetDirectory):
+    os.mkdir(targetDirectory)
+
+filename = "%s/%s-%s-%s.json" % (targetDirectory, sport['type'], sport['location'], sport['start']['dateobject'].strftime('%H:%M:%S'))
 with open(filename, "w") as jsonFile:
     jsonFile.write(json.dumps(stringifyDatetime(sport), sort_keys=True, indent=4))
 
