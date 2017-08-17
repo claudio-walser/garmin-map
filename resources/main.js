@@ -58,7 +58,7 @@ class Main {
         if (data) {
           let activities = [];
           for (let value in data) {
-            activities.push(value);
+            activities.push(data[value]);
           }
           this._activities[dateString] = activities;
 
@@ -76,11 +76,15 @@ class Main {
         //     select.appendChild(opt);
         //   }
         //   select.selectedIndex = 0;
+          console.log(this._activities);
+        } else {
+          console.log("Not able to fetch activities - sorry!");
         }
       }.bind(this));
+    } else {
+      console.log(this._activities);
     }
 
-    console.log(this._activities);
 
   }
 
