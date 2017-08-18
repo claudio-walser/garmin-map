@@ -11,6 +11,7 @@ class Calendar {
 
   setDates(dates) {
     this._dates = dates;
+    this.render();
   }
 
   render() {

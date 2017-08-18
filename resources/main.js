@@ -10,8 +10,8 @@ class Main {
 
     this._activities = [];
 
-    this.calendar = new Calendar('.calendar')
-    this.calendar.setClickHandler(function (data) {
+    this._calendar = new Calendar(this._calenderSelector)
+    this._calendar.setClickHandler(function (data) {
       if (data.count > 0) {
         this.setDate(data.date);
       } else {
@@ -20,9 +20,15 @@ class Main {
     }.bind(this));
 
     this.fetchCalendarDates();
+
+    this._activiyChooser = new ActivityChooser(this._activitySelector);
+    this._activiyChooser.setChangeHandler(function (data) {
+      console.log(this._currentDateString);
+      console.log(data.currentTarget.value);
+    }.bind(this));
   }
 
-  fetchCalendarDates(calendar) {
+  fetchCalendarDates() {
     $.ajax({
       url: "tracks.php?dates",
       dataType: 'json'
@@ -35,8 +41,7 @@ class Main {
             count: data[d]
           });
         }
-        this.calendar.setDates(dates);
-        this.calendar.render();
+        this._calendar.setDates(dates);
       } else {
         console.log("Not able to fetch dates - sorry!");
       }
@@ -45,14 +50,15 @@ class Main {
 
   setDate(date) {
     this._currentDate = date;
+    this._currentDateString = moment(this._currentDate).format("YYYY-MM-DD");
     this.fetchActivities()
   }
 
   fetchActivities() {
     let dateString = moment(this._currentDate).format("YYYY-MM-DD");
-    if (!this._activities[dateString]) {
+    if (!this._activities[this._currentDateString]) {
       $.ajax({
-        url: "tracks.php?date=" + dateString,
+        url: "tracks.php?date=" + this._currentDateString,
         dataType: 'json'
       }).done(function( data ) {
         if (data) {
@@ -60,7 +66,7 @@ class Main {
           for (let value in data) {
             activities.push(data[value]);
           }
-          this._activities[dateString] = activities;
+          this._activities[this._currentDateString] = activities;
 
         //   var current = null;
         //   $('#activity').empty();
@@ -76,22 +82,31 @@ class Main {
         //     select.appendChild(opt);
         //   }
         //   select.selectedIndex = 0;
-          console.log(this._activities);
+          this.setActivities();
         } else {
           console.log("Not able to fetch activities - sorry!");
         }
       }.bind(this));
     } else {
-      console.log(this._activities);
+      this.setActivities();
     }
-
-
   }
 
+  setActivities() {
+    if (!this._activities[this._currentDateString]) {
+      console.log("No activities found for date " + this._currentDateString + " - sorry!");
+      return;
+    }
+
+    this._activiyChooser.setActivities(this._activities[this._currentDateString]);
+  }
+
+
+
+
+
+
   initListeners() {
-    $(this._activitySelector).change(function() {
-      // changeActivity(this.value);
-    });
     $(this._playSelector).on("click", function() {
       // start();
     });
