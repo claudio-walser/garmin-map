@@ -1,3 +1,5 @@
+"use strict";
+
 class SpeedChart {
   constructor(selector) {
     this._selector = selector;

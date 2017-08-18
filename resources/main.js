@@ -1,7 +1,11 @@
+"use strict";
+
 class Main {
 
   constructor() {
+    this._errorHandler = new ErrorHandler();
     this._currentDate = false;
+    this._currentActivity = false;
     this._calenderSelector = '.calendar';
     this._activitySelector = '#activity';
     this._timelineSelector = '#timeline';
@@ -9,23 +13,15 @@ class Main {
     this._stopSelector = '#play-stop';
 
     this._activities = [];
+    this._loadedActivities = [];
 
     this._calendar = new Calendar(this._calenderSelector)
-    this._calendar.setClickHandler(function (data) {
-      if (data.count > 0) {
-        this.setDate(data.date);
-      } else {
-        console.log('no data');
-      }
-    }.bind(this));
+    this._calendar.setClickHandler(this.onDateChange.bind(this));
 
     this.fetchCalendarDates();
 
     this._activiyChooser = new ActivityChooser(this._activitySelector);
-    this._activiyChooser.setChangeHandler(function (data) {
-      console.log(this._currentDateString);
-      console.log(data.currentTarget.value);
-    }.bind(this));
+    this._activiyChooser.setChangeHandler(this.onActivityChange.bind(this));
   }
 
   fetchCalendarDates() {
@@ -43,12 +39,43 @@ class Main {
         }
         this._calendar.setDates(dates);
       } else {
-        console.log("Not able to fetch dates - sorry!");
+        this._errorHandler.error("Not able to fetch dates - sorry!");
       }
     }.bind(this));
   }
 
-  setDate(date) {
+  onActivityChange(data) {
+    let activityKey = this._currentDateString + "/" + data.currentTarget.value;
+    if (!this._loadedActivities[activityKey]) {
+
+      $.ajax({
+        url: "tracks.php?file=" + data.currentTarget.value + "&file_date=" + this._currentDateString,
+        dataType: 'json'
+      }).done(function( data ) {
+        if (data && data.points) {
+          this._currentActivity = data;
+          this._loadedActivities[activityKey] = this._currentActivity;
+          this.initActivity(this._currentActivity);
+        } else {
+          this._errorHandler.error("Not able to load activity - sorry!")
+        }
+      }.bind(this));
+    } else {
+      this._currentActivity = this._loadedActivities[activityKey];
+      
+      this.initActivity(this._currentActivity);
+    }
+  }
+
+  onDateChange(data) {
+    let date;
+    if (data.count > 0) {
+      date = data.date;
+    } else {
+      this._errorHandler.error('no data');
+      return;
+    }
+
     this._currentDate = date;
     this._currentDateString = moment(this._currentDate).format("YYYY-MM-DD");
     this.fetchActivities()
@@ -67,61 +94,38 @@ class Main {
             activities.push(data[value]);
           }
           this._activities[this._currentDateString] = activities;
-
-        //   var current = null;
-        //   $('#activity').empty();
-        //   var select = document.getElementById("activity");
-        //   for (value in data) {
-        //     if (current == null) {
-        //       current = data[value];
-        //       changeActivity(moment(date).format("YYYY-MM-DD") + "/" +current);
-        //     }
-        //     var opt = document.createElement('option');
-        //     opt.value = moment(date).format("YYYY-MM-DD") + "/" + data[value];
-        //     opt.innerHTML = data[value];
-        //     select.appendChild(opt);
-        //   }
-        //   select.selectedIndex = 0;
-          this.setActivities();
+          this._activiyChooser.setActivities(this._activities[this._currentDateString]);
         } else {
-          console.log("Not able to fetch activities - sorry!");
+          this._errorHandler.error("Not able to fetch activities - sorry!");
         }
       }.bind(this));
     } else {
-      this.setActivities();
+      this._activiyChooser.setActivities(this._activities[this._currentDateString]);
     }
   }
 
-  setActivities() {
-    if (!this._activities[this._currentDateString]) {
-      console.log("No activities found for date " + this._currentDateString + " - sorry!");
-      return;
-    }
 
-    this._activiyChooser.setActivities(this._activities[this._currentDateString]);
+  initActivity(activity) {
+    console.log(activity);
   }
 
 
+  // initListeners() {
+  //   $(this._playSelector).on("click", function() {
+  //     // start();
+  //   });
 
+  //   $(this._stopSelector).on("click", function() {
+  //     // stop();
+  //   });
 
-
-
-  initListeners() {
-    $(this._playSelector).on("click", function() {
-      // start();
-    });
-
-    $(this._stopSelector).on("click", function() {
-      // stop();
-    });
-
-    $(this._timelineSelector).change(function() {
-      // if (currentPoints && currentPoints.length > 0) {
-      //   var point = currentPoints[this.value];
-      //   changePoint(point);
-      // }
-    });
-  }
+  //   $(this._timelineSelector).change(function() {
+  //     // if (currentPoints && currentPoints.length > 0) {
+  //     //   var point = currentPoints[this.value];
+  //     //   changePoint(point);
+  //     // }
+  //   });
+  // }
 
 }
 

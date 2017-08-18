@@ -33,6 +33,7 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.min.js" charset="utf-8"></script>
       <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
       <script src="resources/calendar-heatmap.js"></script>
+      <script src="resources/errorHandler.js"></script>
       <script src="resources/map.js"></script>
       <script src="resources/chart.js"></script>
       <script src="resources/calendar.js"></script>

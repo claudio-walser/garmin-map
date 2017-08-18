@@ -1,3 +1,5 @@
+"use strict";
+
 class Calendar {
 
   constructor(selector) {
