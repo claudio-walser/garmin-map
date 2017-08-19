@@ -6,8 +6,14 @@ class ActivityInfo {
     this._selector = selector;
   }
 
-  update(currentPoint) {
-  	this._currentSpeed = currentSpeed;
+  update(currentPoint, numPoint) {
+    $("#duration").html(moment.utc(numPoint * 1000).format("HH:mm:ss"))
+    $("#temperature").html(currentPoint.temperature + '°');
+
+	let speedString = (currentPoint.speed * 1.94384).toFixed(1) + " kts | " +
+	  (currentPoint.speed * 3.6).toFixed(1) + " kmh | " +
+	  + currentPoint.speed + " m/s";
+    $("#speed").html(speedString);
   }
 
 }

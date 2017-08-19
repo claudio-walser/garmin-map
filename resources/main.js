@@ -14,7 +14,7 @@ class Main {
     this._stopSelector = '#play-stop';
     this._speedFactorSelector = '#speed-factor';
     this._infoSelector = ".info";
-
+    this._secondsElapsed = 0;
     this._activities = [];
     this._loadedActivities = [];
 
@@ -122,17 +122,18 @@ class Main {
   }
 
   onTimelineChange(data) {
-    let pointKey = data.currentTarget.value;
-    if (!this._currentActivity.points[pointKey]) {
+    this._secondsElapsed = data.currentTarget.value;
+    if (!this._currentActivity.points[this._secondsElapsed]) {
       this._errorHandler.error("This point does not exist - sorry!");
       return;
     }
 
-    this.setCurrentPoint(this._currentActivity.points[pointKey]);
+    this.setCurrentPoint(this._currentActivity.points[this._secondsElapsed]);
   }
 
   setCurrentPoint(point) {
     this._map.update(point);
+    this._activityInfo.update(point, this._secondsElapsed)
     console.log(point);
   }
 
