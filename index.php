@@ -38,6 +38,7 @@
       <script src="resources/chart.js"></script>
       <script src="resources/calendar.js"></script>
       <script src="resources/activityChooser.js"></script>
+      <script src="resources/timeline.js"></script>
       <script src="resources/main.js"></script>
       <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=<?php echo file_get_contents('.google-maps-key');?>&callback=init">
