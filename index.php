@@ -15,12 +15,15 @@
       <div id="info-overlay">
         <div class="calendar"></div>
         <div class="wrapper">Aktivitätsauswahl: <select id="activity" name="activity"></select></div>
-        <div class="wrapper">Geschwindigkeit: <span id="speed"></span></div>
-        <div class="wrapper">Datum und Zeit: <span id="datetime"></span></div>
-        <div class="wrapper">Temperatur: <span id="temperature"></span></div>
-        <div class="wrapper">Dauer: <span id="duration"></span></div>
+        <div class="info">
+          <!-- 
+          <div class="wrapper">Geschwindigkeit: <span id="speed"></span></div>
+          <div class="wrapper">Datum und Zeit: <span id="datetime"></span></div>
+          <div class="wrapper">Temperatur: <span id="temperature"></span></div>
+          <div class="wrapper">Dauer: <span id="duration"></span></div> -->
+        </div>
 
-        <div class="twrapper">
+        <div class="timeline">
           <input id="speed-factor" type="text" value="5" />
           <input id="play" type="button" value="Play" />
           <input id="play-stop" type="button" value="Stop" />
@@ -38,6 +41,7 @@
       <script src="resources/chart.js"></script>
       <script src="resources/calendar.js"></script>
       <script src="resources/activityChooser.js"></script>
+      <script src="resources/activityInfo.js"></script>
       <script src="resources/timeline.js"></script>
       <script src="resources/main.js"></script>
       <script async defer

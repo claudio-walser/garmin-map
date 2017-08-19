@@ -13,6 +13,7 @@ class Main {
     this._playSelector = '#play';
     this._stopSelector = '#play-stop';
     this._speedFactorSelector = '#speed-factor';
+    this._infoSelector = ".info";
 
     this._activities = [];
     this._loadedActivities = [];
@@ -32,6 +33,8 @@ class Main {
     this._timeline.setOnChangeHandler(this.onTimelineChange.bind(this));
 
     this._map = new Map(this._mapSelector);
+
+    this._activityInfo = new ActivityInfo(this._infoSelector);
   }
 
   fetchCalendarDates() {
