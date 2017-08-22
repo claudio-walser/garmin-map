@@ -22,23 +22,16 @@ class Calendar {
 	    .selector(this._selector)
 	    .tooltipEnabled(true)
 	    .colorRange(['#c6e48b', '#196127'])
-	    .onClick(this._handlerFunction)
-	    // 	function (data) {
-	    //   if (data.count > 0) {
-	    //     initByDate(data.date);
-	    //   } else {
-	    //     console.log('no data');
-	    //   }
-	    // })
-	    .tooltipUnit('Einträge')
-	    .locale({
-	      months: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
-	      days: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
-	      No: 'keine',
-	      on: 'an',
-	      Less: 'wenig',
-	      More: 'mehr'
-	    });
+	    .onClick(this._handlerFunction);
+	    // .tooltipUnit('Einträge')
+	    // .locale({
+	    //   months: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
+	    //   days: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
+	    //   No: 'keine',
+	    //   on: 'an',
+	    //   Less: 'wenig',
+	    //   More: 'mehr'
+	    // });
 	  heatmap();
   }
 }

@@ -47,7 +47,8 @@ class Main {
         for (let d in data) {
           dates.push({
             date: moment(d).toDate(),
-            count: data[d]
+            count: data[d]['count'],
+            additionalMessage: data[d]['activities'].join(', ')
           });
         }
         this._calendar.setDates(dates);

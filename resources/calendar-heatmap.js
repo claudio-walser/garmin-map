@@ -236,7 +236,7 @@ function calendarHeatmap() {
 
     function pluralizedTooltipUnit (count) {
       if ('string' === typeof tooltipUnit) {
-        return (tooltipUnit + (count === 1 ? '' : ''));
+        return (tooltipUnit + (count === 1 ? '' : 's'));
       }
       for (var i in tooltipUnit) {
         var _rule = tooltipUnit[i];
@@ -252,7 +252,8 @@ function calendarHeatmap() {
     function tooltipHTMLForDate(d) {
       var dateStr = moment(d).format('ddd, MMM Do YYYY');
       var count = countForDate(d);
-      return '<span><strong>' + (count ? count : locale.No) + ' ' + pluralizedTooltipUnit(count) + '</strong> ' + locale.on + ' ' + dateStr + '</span>';
+      var message = additionalMessageForDate(d);
+      return '<span><strong>' + (count ? count : locale.No) + ' ' + pluralizedTooltipUnit(count) + '</strong> ' + locale.on + ' ' + dateStr + '</span> - ' + message;
     }
 
     function countForDate(d) {
@@ -264,6 +265,17 @@ function calendarHeatmap() {
         count = match.count;
       }
       return count;
+    }
+
+    function additionalMessageForDate(d) {
+      var message = '';
+      var match = chart.data().find(function (element, index) {
+        return moment(element.date).isSame(d, 'day');
+      });
+      if (match) {
+        message = match.additionalMessage;
+      }
+      return message;
     }
 
     function formatWeekday(weekDay) {

@@ -7,8 +7,23 @@ function getDates() {
 		if ($file == '.' || $file == '..') {
 			continue;
 		}
+
 		if (is_dir("./out/" . $file)) {
-			$return[$file] = count(getJsonFiles($file));
+			$activities = scandir("./out/" . $file);
+			$activityNames = array();
+			if (is_array($activities)) {
+				foreach ($activities as $activity) {
+					if ($activity == '.' || $activity == '..') {
+						continue;
+					}
+					$activityParts = explode('-', $activity);
+					$activityName = $activityParts[0];
+					array_push($activityNames, $activityName);
+
+				}
+			}
+			$return[$file]['count'] = count(getJsonFiles($file));
+			$return[$file]['activities'] = $activityNames;
 		}
 	}
 	return $return;
