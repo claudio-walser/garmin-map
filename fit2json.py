@@ -184,6 +184,8 @@ for sportRecord in fitfile.get_messages('sport'):
 lastPoint = False
 maxSpeed = False
 minSpeed = False
+maxAltitude = False
+minAltitude = False
 
 for record in fitfile.get_messages('record'):
 
@@ -234,6 +236,19 @@ for record in fitfile.get_messages('record'):
     if sportRecord['speed'] > maxSpeed:
         maxSpeed = sportRecord['speed']
     
+
+    if minAltitude is False:
+        minAltitude = sportRecord['altitude']
+
+    if maxAltitude is False:
+        maxAltitude = sportRecord['altitude']
+
+    if sportRecord['altitude'] < minAltitude:
+        minAltitude = sportRecord['altitude']
+
+    if sportRecord['altitude'] > maxAltitude:
+        maxAltitude = sportRecord['altitude']
+
     if interpolate and lastPoint and sportRecord['lat'] and sportRecord['lng']:
         interpolatedPoints = interpolateLinear(lastPoint, sportRecord)
         for interpolatedPoint in interpolatedPoints:
@@ -270,6 +285,11 @@ sport['duration'] = timeDiff.total_seconds()
 sport['speed'] = {
     'min': minSpeed,
     'max': maxSpeed,
+}
+
+sport['altitude'] = {
+    'min': minAltitude,
+    'max': maxAltitude,
 }
 
 targetDirectory = "./out/%s" % (sport['start']['dateobject'].strftime("%Y-%m-%d"))

@@ -2,16 +2,69 @@
 
 class SpeedChart {
   constructor(selector) {
-    this._selector = selector;
+    d3.select("#speed-graph");
+    let viz = vizuly.viz.radial_progress(document.getElementById("speed-graph"));
+
+	viz.data(0)                       // Current value
+            .height(600)                    // Height of component - radius is calculated automatically for us
+            .min(0)                         // min value
+            .max(100)                       // max value
+            .capRadius(1)                   // Sets the curvature of the ends of the arc.
+            .on("tween", this.onTween)            // On the arc animation we create a callback to update the label
+            .on("mouseover", this.onMouseOver)    // mouseover callback - all viz components issue these events
+            .on("mouseout", this.onMouseOut)      // mouseout callback - all viz components issue these events
+            .on("click", this.onClick); 
+
+    viz.startAngle(250)                         // Angle where progress bar starts
+        .endAngle(110)                           // Angle where the progress bar stops
+        .arcThickness(.12)                        // The thickness of the arc (ratio of radius)
+        .label(function (d,i) {                  // The 'label' property allows us to use a dynamic function for labeling.
+            return d3.format(".0f")(d);
+        });
+     this.viz = viz;
+    this.changeSize("800,600");
   }
 
-  setPoints(points) {
-    this._points = points;
-  }
 
-  update(currentSpeed) {
-  	this._currentSpeed = currentSpeed;
-  }
+ onTween(viz,i) {
+    viz.selection().selectAll(".vz-radial_progress-label")
+        .text(viz.label()(viz.data() * i));
+}
+
+onMouseOver(viz,d,i) {
+    //We can capture mouse over events and respond to them
+}
+
+onMouseOut(viz,d,i) {
+    //We can capture mouse out events and respond to them
+}
+
+onClick(viz,d,i) {
+    //We can capture click events and respond to them
+}
+
+changeSize(val) {
+    var s = String(val).split(",");
+    //viz_container.transition().duration(300).style('width', s[0] + 'px').style('height', s[1] + 'px');
+
+    var divWidth = s[0] * 0.80 / 3;
+    let div = d3.select("#speed-graph");
+        div.style("width",divWidth + 'px').style("margin-left", (s[0] *.05) + "px");
+        this.viz.width(divWidth).height(divWidth).radius(divWidth/2.2).update();
+
+}
+
+update(currentSpeed) {
+	this.viz.data(Number(currentSpeed)).update();
+}
+
+  // setPoints(points) {
+  //   this._points = points;
+  // }
+
+  // update(currentSpeed) {
+  // 	this._currentSpeed = currentSpeed;
+  // }
 
 }
 

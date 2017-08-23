@@ -3,8 +3,10 @@
   <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="resources/calendar-heatmap.css">
-    <link rel="stylesheet" type="text/css" href="resources/main.css">
+    <link rel="stylesheet" type="text/css" href="resources/calendar-heatmap/calendar-heatmap.css">
+    <link rel="stylesheet" type="text/css" href="resources/main.css">    
+    <link rel="stylesheet" href="resources/radialprogress/vizuly_radial_progress.css">
+
 
     <title>Garmin Speed Map</title>
 
@@ -15,10 +17,12 @@
       <div id="info-overlay">
         <div class="calendar"></div>
         <div class="wrapper">Aktivitätsauswahl: <select id="activity" name="activity"></select></div>
+        <div id="speed-graph"></div>
         <div class="info">
-          <span class="speed-wrapper">Geschwindigkeit: <span id="speed"></span></span>
+          <span class="speed-wrapper">Geschwindigkeit: <span id="speed"></span> <br />Max: <span id="speed-max"></span></span>
           <span class="duration-wrapper">Dauer: <span id="duration"></span></span>
           <span class="temperature-wrapper">Temperatur: <span id="temperature"></span></span>
+          <span class="temperature-wrapper">Höhe: <span id="altitude"></span> <br />Max: <span id="altitude-max"></span></span>
 
           <!-- 
           <div class="wrapper">Geschwindigkeit: <span id="speed"></span></div>
@@ -40,7 +44,9 @@
 
       <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.min.js" charset="utf-8"></script>
       <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-      <script src="resources/calendar-heatmap.js"></script>
+      <script src="resources/calendar-heatmap/calendar-heatmap.js"></script>
+      <script src="resources/radialprogress/vizuly_core.min.js"></script>
+      <script src="resources/radialprogress/vizuly_radialprogress.min.js"></script>
       <script src="resources/errorHandler.js"></script>
       <script src="resources/map.js"></script>
       <script src="resources/chart.js"></script>

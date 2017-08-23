@@ -35,6 +35,7 @@ class Main {
     this._map = new Map(this._mapSelector);
 
     this._activityInfo = new ActivityInfo(this._infoSelector);
+    this._chart = new SpeedChart();
   }
 
   fetchCalendarDates() {
@@ -119,6 +120,7 @@ class Main {
 
   initActivity(activity) {
     this._map.setActivity(activity);
+    this._activityInfo.setActivity(activity);
     this._timeline.updateMaxValue(activity.points.length - 1);
   }
 
@@ -134,7 +136,8 @@ class Main {
 
   setCurrentPoint(point) {
     this._map.update(point);
-    this._activityInfo.update(point, this._secondsElapsed)
+    this._activityInfo.update(point, this._secondsElapsed);
+    this._chart.update(100 / this._currentActivity.speed.max * point.speed);
     console.log(point);
   }
 

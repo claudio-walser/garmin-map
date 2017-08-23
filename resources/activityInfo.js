@@ -6,14 +6,26 @@ class ActivityInfo {
     this._selector = selector;
   }
 
+  setActivity(activity) {
+    this._activity = activity;
+    $("#speed-max").html(this.getSpeedString(this._activity.speed.max));
+    $("#altitude-max").html(this._activity.altitude.max + 'müM');
+  }
+
   update(currentPoint, numPoint) {
     $("#duration").html(moment.utc(numPoint * 1000).format("HH:mm:ss"))
     $("#temperature").html(currentPoint.temperature + '°');
+    $("#altitude").html(currentPoint.altitude + 'müM');
 
-	let speedString = (currentPoint.speed * 1.94384).toFixed(1) + " kts | " +
-	  (currentPoint.speed * 3.6).toFixed(1) + " kmh | " +
-	  + currentPoint.speed + " m/s";
-    $("#speed").html(speedString);
+    $("#speed").html(this.getSpeedString(currentPoint.speed));
+  }
+
+  getSpeedString(ms) {
+    let speedString = (ms * 1.94384).toFixed(1) + " kts | " +
+    (ms * 3.6).toFixed(1) + " kmh | " +
+    + ms + " m/s";
+
+    return speedString;
   }
 
 }
