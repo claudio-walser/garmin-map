@@ -16,17 +16,28 @@ class ActivityInfo {
     $("#duration").html(moment.utc(numPoint * 1000).format("HH:mm:ss"))
     $("#temperature").html(currentPoint.temperature + '°');
     $("#altitude").html(currentPoint.altitude + 'müM');
-
     $("#speed").html(this.getSpeedString(currentPoint.speed));
   }
 
   getSpeedString(ms) {
-    let speedString = (ms * 1.94384).toFixed(1) + " kts | " +
-    (ms * 3.6).toFixed(1) + " kmh | " +
-    + ms + " m/s";
+    let speedString = this.getSpeedInKnots(ms) + " | " +
+    this.getSpeedInKmh(ms) + " | " +
+    this.getSpeedInMs(ms);
 
     return speedString;
   }
+
+  getSpeedInKnots(ms) {
+    return String((ms * 1.94384).toFixed(1)) + " kts";
+  }
+
+  getSpeedInKmh(ms) {
+    return String((ms * 3.6).toFixed(1)) + " kmh";
+  }
+
+  getSpeedInMs(ms) {
+    return String(ms) + " m/s";
+  } 
 
 }
 
@@ -34,7 +45,7 @@ class ActivityInfo {
 // function changePoint(point) {
 //   var dd = new Date(point.datetime)
 //   var d = Date.parse(point.datetime);
-//   speedString = (point.speed * 1.94384).toFixed(1) + " kts | " +
+//   speedString = (point.speed * 1.94384).toFixed(1) + " kts | " +
 //           (point.speed * 3.6).toFixed(1) + " kmh | " +
 //           + point.speed + " m/s";
 //   $('#speed').html(speedString);

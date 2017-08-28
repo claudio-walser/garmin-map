@@ -6,7 +6,7 @@ class SpeedChart {
     let viz = vizuly.viz.radial_progress(document.getElementById("speed-graph"));
 
 	viz.data(0)                       // Current value
-            .height(600)                    // Height of component - radius is calculated automatically for us
+            .height(400)                    // Height of component - radius is calculated automatically for us
             .min(0)                         // min value
             .max(100)                       // max value
             .capRadius(1)                   // Sets the curvature of the ends of the arc.
@@ -19,10 +19,12 @@ class SpeedChart {
         .endAngle(110)                           // Angle where the progress bar stops
         .arcThickness(.12)                        // The thickness of the arc (ratio of radius)
         .label(function (d,i) {                  // The 'label' property allows us to use a dynamic function for labeling.
-            return d3.format(".0f")(d);
-        });
+            return String(this._speedLabel);
+        }.bind(this));
+    vizuly.theme.radial_progress(viz).skin(vizuly.skin.RADIAL_PROGRESS_BUSINESS);
      this.viz = viz;
-    this.changeSize("800,600");
+    this.changeSize("400,400");
+    this._maxSpeed = 0;
   }
 
 
@@ -54,9 +56,23 @@ changeSize(val) {
 
 }
 
-update(currentSpeed) {
-	this.viz.data(Number(currentSpeed)).update();
+
+setSpeedLabel(speedLabel) {
+  this._speedLabel = speedLabel;
 }
+
+update(currentSpeed) {
+  if (this._maxSpeed == 0) {
+    return;
+  }
+ this.viz.data(Number(100 / this._maxSpeed * currentSpeed)).duration(0).update();
+ //this.viz.data(Number(100 / this._maxSpeed * currentSpeed)).update();
+}
+     
+setMaxSpeed(maxSpeed) {
+  this._maxSpeed = maxSpeed;
+}
+
 
   // setPoints(points) {
   //   this._points = points;

@@ -122,6 +122,7 @@ class Main {
     this._map.setActivity(activity);
     this._activityInfo.setActivity(activity);
     this._timeline.updateMaxValue(activity.points.length - 1);
+    this._chart.setMaxSpeed(activity.speed.max);
   }
 
   onTimelineChange(data) {
@@ -137,8 +138,8 @@ class Main {
   setCurrentPoint(point) {
     this._map.update(point);
     this._activityInfo.update(point, this._secondsElapsed);
-    this._chart.update(100 / this._currentActivity.speed.max * point.speed);
-    console.log(point);
+    this._chart.setSpeedLabel(this._activityInfo.getSpeedInKnots(point.speed))
+    this._chart.update(point.speed);
   }
 
 }

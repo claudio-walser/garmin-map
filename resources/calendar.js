@@ -4,7 +4,6 @@ class Calendar {
 
   constructor(selector) {
     this._selector = selector;
-    console.log('calendar initialized');
   }
 
   setClickHandler(handlerFunction) {
