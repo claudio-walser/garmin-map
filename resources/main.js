@@ -8,7 +8,7 @@ class Main {
     this._currentActivity = false;
     this._mapSelector = '#map';
     this._calenderSelector = '.calendar';
-    this._activitySelector = '#activity';
+    this._activitySelector = '.activity';
     this._timelineSelector = '#timeline';
     this._playSelector = '#play';
     this._stopSelector = '#play-stop';
@@ -35,7 +35,6 @@ class Main {
     this._map = new Map(this._mapSelector);
 
     this._activityInfo = new ActivityInfo(this._infoSelector);
-    this._chart = new SpeedChart();
   }
 
   fetchCalendarDates() {
@@ -122,7 +121,6 @@ class Main {
     this._map.setActivity(activity);
     this._activityInfo.setActivity(activity);
     this._timeline.updateMaxValue(activity.points.length - 1);
-    this._chart.setMaxSpeed(activity.speed.max);
   }
 
   onTimelineChange(data) {
@@ -138,8 +136,6 @@ class Main {
   setCurrentPoint(point) {
     this._map.update(point);
     this._activityInfo.update(point, this._secondsElapsed);
-    this._chart.setSpeedLabel(this._activityInfo.getSpeedInKnots(point.speed))
-    this._chart.update(point.speed);
   }
 
 }

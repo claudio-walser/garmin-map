@@ -8,7 +8,6 @@ class ActivityChooser {
 
   setChangeHandler(handlerFunction) {
   	this._handlerFunction = handlerFunction;
-    $(this._selector).change(this._handlerFunction);
   }
 
   setActivities(activities) {
@@ -17,14 +16,21 @@ class ActivityChooser {
   }
 
   render() {
-  	$(this._selector).empty();
+    let select = $("<select></select>");
+    select.change(this._handlerFunction);
+
+
   	for (let key in this._activities){
       let value = this._activities[key];
-	  $(this._selector).append($('<option>', { 
-	    value: value,
-	    text : value 
+	    select.append($('<option>', { 
+        value: value,
+        text : value 
       }));
   	}
-  	$(this._selector).trigger('change');
+  	$(this._selector).empty();
+    $(this._selector).append('<span>Choose Activity: </span>');
+    $(this._selector).append(select);
+    
+    select.trigger('change');
   }
 }

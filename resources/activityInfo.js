@@ -4,12 +4,15 @@ class ActivityInfo {
 
   constructor(selector) {
     this._selector = selector;
+    this._chart = new SpeedChart();
   }
 
   setActivity(activity) {
     this._activity = activity;
     $("#speed-max").html(this.getSpeedString(this._activity.speed.max));
     $("#altitude-max").html(this._activity.altitude.max + 'müM');
+
+    this._chart.setMaxSpeed(activity.speed.max);
   }
 
   update(currentPoint, numPoint) {
@@ -17,6 +20,8 @@ class ActivityInfo {
     $("#temperature").html(currentPoint.temperature + '°');
     $("#altitude").html(currentPoint.altitude + 'müM');
     $("#speed").html(this.getSpeedString(currentPoint.speed));
+    this._chart.setSpeedLabel(this.getSpeedInKnots(currentPoint.speed))
+    this._chart.update(currentPoint.speed);
   }
 
   getSpeedString(ms) {

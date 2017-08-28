@@ -16,7 +16,10 @@
     <div id="body">
       <div id="info-overlay">
         <div class="calendar"></div>
-        <div class="wrapper">Aktivitätsauswahl: <select id="activity" name="activity"></select></div>
+        
+        <div class="activity"></div>
+
+        <!-- <div class="wrapper">Aktivitätsauswahl: <select id="activity" name="activity"></select></div> -->
         <div id="speed-graph"></div>
         <div class="info">
           <span class="speed-wrapper">Geschwindigkeit: <span id="speed"></span> <br />Max: <span id="speed-max"></span></span>
