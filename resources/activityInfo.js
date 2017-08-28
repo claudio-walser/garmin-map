@@ -4,14 +4,14 @@ class ActivityInfo {
 
   constructor(selector) {
     this._selector = selector;
-    this._chart = new SpeedChart();
+    $(this._selector).append('<div id="speed-graph"></div>');
+    this._chart = new SpeedChart('#speed-graph');
   }
 
   setActivity(activity) {
     this._activity = activity;
     $("#speed-max").html(this.getSpeedString(this._activity.speed.max));
     $("#altitude-max").html(this._activity.altitude.max + 'müM');
-
     this._chart.setMaxSpeed(activity.speed.max);
   }
 

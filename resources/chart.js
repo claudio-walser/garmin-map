@@ -2,8 +2,9 @@
 
 class SpeedChart {
   constructor(selector) {
-    d3.select("#speed-graph");
-    let viz = vizuly.viz.radial_progress(document.getElementById("speed-graph"));
+    this._selector = selector;
+    d3.select(selector);
+    let viz = vizuly.viz.radial_progress($(selector).get(0));
 
 	viz.data(0)                       // Current value
             .height(400)                    // Height of component - radius is calculated automatically for us
@@ -50,7 +51,7 @@ changeSize(val) {
     //viz_container.transition().duration(300).style('width', s[0] + 'px').style('height', s[1] + 'px');
 
     var divWidth = s[0] * 0.80 / 3;
-    let div = d3.select("#speed-graph");
+    let div = d3.select(this._selector);
         div.style("width",divWidth + 'px').style("margin-left", (s[0] *.05) + "px");
         this.viz.width(divWidth).height(divWidth).radius(divWidth/2.2).update();
 

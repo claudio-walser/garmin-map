@@ -20,12 +20,14 @@
         <div class="activity"></div>
 
         <!-- <div class="wrapper">Aktivitätsauswahl: <select id="activity" name="activity"></select></div> -->
-        <div id="speed-graph"></div>
         <div class="info">
+        
+<!--           <div id="speed-graph"></div>
+
           <span class="speed-wrapper">Geschwindigkeit: <span id="speed"></span> <br />Max: <span id="speed-max"></span></span>
           <span class="duration-wrapper">Dauer: <span id="duration"></span></span>
           <span class="temperature-wrapper">Temperatur: <span id="temperature"></span></span>
-          <span class="temperature-wrapper">Höhe: <span id="altitude"></span> <br />Max: <span id="altitude-max"></span></span>
+          <span class="temperature-wrapper">Höhe: <span id="altitude"></span> <br />Max: <span id="altitude-max"></span></span> -->
 
           <!-- 
           <div class="wrapper">Geschwindigkeit: <span id="speed"></span></div>
