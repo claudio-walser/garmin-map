@@ -13,25 +13,11 @@ html, body {
   position: relative;
 }
 
-#timeline {
+.timeline input[type="range"] {
   width: 100%;
   margin: auto;
-  /*margin-top: 35px;*/
 }
 
-#play-stop {
+.timeline input[value="Stop"] {
   display: none;
-}
-
-.tooltip { 
-  position: absolute;     
-  text-align: center;     
-  width: 60px;          
-  height: 28px;         
-  padding: 2px;       
-  font: 12px sans-serif;    
-  background: lightsteelblue; 
-  border: 0px;    
-  border-radius: 8px;     
-  pointer-events: none;     
 }

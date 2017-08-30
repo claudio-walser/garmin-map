@@ -3,43 +3,47 @@
 class Timeline {
 
   constructor(selector) {
+
+    console.log('timeline');
     this._selector = selector;
 
     this._timerStarted = false;
     this._timer = false;
-  }
 
-  setPlaySelector(selector) {
-    this._playSelector = selector;
-    $(this._playSelector).on('click', this.start.bind(this));
-  }
+    this._playButton = $('<input type="button" value="Play" />');
+    this._playButton.on('click', this.start.bind(this));
 
-  setStopSelector(selector) {
-    this._stopSelector = selector;
-    $(this._stopSelector).on('click', this.stop.bind(this));
+    this._stopButton = $('<input type="button" value="Stop" />');
+    this._stopButton.on('click', this.stop.bind(this));
 
-  }
+    this._speedFactor = $('<input type="text" value="5" />');
 
-  setSpeedFactorSelector(selector) {
-    this._speedFactorSelector = selector;
+    this._timeline = $('<input type="range" min="0" max="100" value="0" />');
+    let timelineDiv = $('<div></div>');
+    timelineDiv.append(this._timeline);
+
+    $(this._selector).append(this._playButton);
+    $(this._selector).append(this._stopButton);
+    $(this._selector).append(this._speedFactor);
+    $(this._selector).append(timelineDiv);
   }
 
   setOnChangeHandler(handlerFunction) {
     this._handlerFunction = handlerFunction;
-    $(this._selector).change(this._handlerFunction);
+    this._timeline.change(this._handlerFunction);
   }
 
   updateMaxValue(max) {
-  	$(this._selector).attr('max', max);
-    $(this._selector).val(0);
-    $(this._selector).trigger('change');
+  	this._timeline.attr('max', max);
+    this._timeline.val(0);
+    this._timeline.trigger('change');
   }
 
   start() {
     if (this._timerStarted == false) {
       this._timerStarted = true;
-      $(this._playSelector).hide();
-      $(this._stopSelector).show();
+      this._playButton.hide();
+      this._stopButton.show();
       this.play();
     }
   }
@@ -49,11 +53,11 @@ class Timeline {
       return;
     }
 
-    let speed = 1000 / $(this._speedFactorSelector).val()
-    let currentPos = Number($(this._selector).val());
-    $(this._selector).val(currentPos + 1);
-    $(this._selector).trigger("change");
-    if (currentPos + 1 >= Number($(this._selector).attr("max"))) {
+    let speed = 1000 / this._speedFactor.val()
+    let currentPos = Number(this._timeline.val());
+    this._timeline.val(currentPos + 1);
+    this._timeline.trigger("change");
+    if (currentPos + 1 >= Number(this._timeline.attr("max"))) {
       this.stop();
     }
     this._timer = setTimeout(this.play.bind(this), speed);
@@ -62,8 +66,8 @@ class Timeline {
   stop() {
     this._timerStarted = false;
     clearTimeout(this._timer);
-    $(this._playSelector).show();
-    $(this._stopSelector).hide();
+    this._playButton.show();
+    this._stopButton.hide();
   }
 
 }

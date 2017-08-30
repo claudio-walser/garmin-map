@@ -18,10 +18,8 @@
         <div class="calendar"></div>
         
         <div class="activity"></div>
-
-        <!-- <div class="wrapper">Aktivitätsauswahl: <select id="activity" name="activity"></select></div> -->
         <div class="info">
-        
+
 <!--           <div id="speed-graph"></div>
 
           <span class="speed-wrapper">Geschwindigkeit: <span id="speed"></span> <br />Max: <span id="speed-max"></span></span>
@@ -35,14 +33,7 @@
           <div class="wrapper">Temperatur: <span id="temperature"></span></div>
           <div class="wrapper">Dauer: <span id="duration"></span></div> -->
         </div>
-
-        <div class="timeline">
-          <input id="speed-factor" type="text" value="5" />
-          <input id="play" type="button" value="Play" />
-          <input id="play-stop" type="button" value="Stop" />
-          <span id="duration"></span>
-          <input name="timeline" id="timeline" type="range" min="0" max="100" value="0" />
-        </div>
+        <div class="timeline"></div>
       </div>
       <div id="map"></div>
       <svg id="visualisation" width="1000" height="100"></svg>

@@ -9,32 +9,38 @@ class Main {
     this._mapSelector = '#map';
     this._calenderSelector = '.calendar';
     this._activitySelector = '.activity';
-    this._timelineSelector = '#timeline';
-    this._playSelector = '#play';
-    this._stopSelector = '#play-stop';
-    this._speedFactorSelector = '#speed-factor';
+    this._timelineSelector = '.timeline';
     this._infoSelector = ".info";
-    this._secondsElapsed = 0;
-    this._activities = [];
-    this._loadedActivities = [];
+
 
     this._calendar = new Calendar(this._calenderSelector)
     this._calendar.setClickHandler(this.onDateChange.bind(this));
-
     this.fetchCalendarDates();
 
     this._activiyChooser = new ActivityChooser(this._activitySelector);
     this._activiyChooser.setChangeHandler(this.onActivityChange.bind(this));
 
     this._timeline = new Timeline(this._timelineSelector);
-    this._timeline.setPlaySelector(this._playSelector);
-    this._timeline.setStopSelector(this._stopSelector);
-    this._timeline.setSpeedFactorSelector(this._speedFactorSelector);
     this._timeline.setOnChangeHandler(this.onTimelineChange.bind(this));
 
     this._map = new Map(this._mapSelector);
 
     this._activityInfo = new ActivityInfo(this._infoSelector);
+
+
+
+    // this._playSelector = '#play';
+    // this._stopSelector = '#play-stop';
+    // this._speedFactorSelector = '#speed-factor';
+    this._secondsElapsed = 0;
+    this._activities = [];
+    this._loadedActivities = [];
+
+    // this._timeline.setPlaySelector(this._playSelector);
+    // this._timeline.setStopSelector(this._stopSelector);
+    // this._timeline.setSpeedFactorSelector(this._speedFactorSelector);
+
+
   }
 
   fetchCalendarDates() {
