@@ -19,13 +19,12 @@ class ActivityChooser {
   render() {
     let select = $("<select></select>");
     select.change(this._handlerFunction);
-
-
   	for (let key in this._activities){
-      let value = this._activities[key];
+      let value = this._activities[key].value;
+      let label = this._activities[key].label;
 	    select.append($('<option>', { 
         value: value,
-        text : value 
+        text : label
       }));
   	}
   	$(this._selector).empty();

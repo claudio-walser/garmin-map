@@ -34,7 +34,12 @@ function getJsonFiles($date) {
 	$return = array();
 	foreach ($files as $file) {
 		if (strpos($file, '.json')) {
-			array_push($return, $file);
+			$activity = json_decode(file_get_contents("./out/" . $date . '/' . $file));
+			$pushValue = [
+				'value' => $file,
+				'label' => $activity->name
+			];
+			array_push($return, $pushValue);
 		}
 	}
 	return $return;
@@ -54,12 +59,6 @@ if (isset($_GET['dates'])) {
 	}
 } else if (isset($_GET['date'])) {
 	$date = basename($_GET['date']);
-	$files = scandir("./out/" . $date);
-	$return = array();
-	foreach ($files as $file) {
-		if (strpos($file, '.json')) {
-			array_push($return, $file);
-		}
-	}
+	$return = getJsonFiles($date);
 	echo json_encode($return);
 }

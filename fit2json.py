@@ -9,20 +9,17 @@ import json
 import os
 import googlemaps
 
-
 def semicircleToGradient(semicircle):
     return int(semicircle) * ( 180.0 / 2 ** 31 )
 
 def stringifyDatetime(sport):
     sport['start']['dateobject'] = sport['start']['dateobject'].strftime('%Y-%m-%d %H:%M:%S')
-    sport['end']['dateobject'] = sport['end']['dateobject'].strftime('%Y %d %m %H:%M:%S')
+    sport['end']['dateobject'] = sport['end']['dateobject'].strftime('%Y-%d-%m %H:%M:%S')
 
     for point in sport['points']:
         dateTime = point['dateobject']
         point['dateobject'] = dateTime.strftime('%Y-%m-%d %H:%M:%S')
-        point['datetime'] = dateTime.strftime('%Y/%m/%d %H:%M:%S')
-        point['time'] = dateTime.strftime('%H:%M:%S')
-        point['date'] = dateTime.strftime('%Y-%m-%d')
+        point['datetime'] = dateTime.strftime('%Y-%m-%d %H:%M:%S')
 
     return sport
 
@@ -150,6 +147,7 @@ if not os.path.isfile(fitFilename):
 fitfile = FitFile(fitFilename)
 
 sport = {
+    'name': False,
     'type': False,
     'location': False,
     'start': {
@@ -174,7 +172,6 @@ for sportRecord in fitfile.get_messages('sport'):
     for record_data in sportRecord:
         if record_data.name == 'name':
             sport['type'] = record_data.value
-
 
 # for sportRecord in fitfile.get_messages('event'):
 #     for record_data in sportRecord:
@@ -291,6 +288,14 @@ sport['altitude'] = {
     'min': minAltitude,
     'max': maxAltitude,
 }
+
+sport['name'] = "%s %s %s" % (
+    sport['start']['dateobject'].strftime("%H:%M:%S"),
+    sport['location'].title(),
+    sport['type'].title()
+)
+
+
 
 targetDirectory = "./out/%s" % (sport['start']['dateobject'].strftime("%Y-%m-%d"))
 if not os.path.isdir(targetDirectory):
