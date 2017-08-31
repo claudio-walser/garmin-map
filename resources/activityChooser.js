@@ -13,6 +13,7 @@ class ActivityChooser {
   setActivities(activities) {
     this._activities = activities;
     this.render();
+    $(this._selector).show();
   }
 
   render() {

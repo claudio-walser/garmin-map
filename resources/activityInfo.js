@@ -31,7 +31,7 @@ class ActivityInfo {
 
     this._duration = $('<div></div>');
     this._durationWrapper = $('<div class="info-wrapper info-text"></div>');
-    this._durationWrapper.append("<div class='box-title'>Height</div>");
+    this._durationWrapper.append("<div class='box-title'>Duration</div>");
     this._durationWrapper.append(this._duration);
 
     this._temperature = $('<div></div>');
@@ -54,10 +54,11 @@ class ActivityInfo {
     this._speedMax.html(this.getSpeedString(this._activity.speed.max));
     this._heightMax.html(this._activity.altitude.max + ' müM');
     this._chart.setMaxSpeed(activity.speed.max);
+    $(this._selector).show();
   }
 
   update(currentPoint, numPoint) {
-    this._duration.html(moment.utc(numPoint * 1000).format("HH:mm:ss"))
+    this._duration.html(moment.utc(numPoint * 1000).format("HH:mm:ss") + " / " + moment.utc(this._activity.duration * 1000).format("HH:mm:ss"));
     this._temperature.html(currentPoint.temperature + '°');
     this._height.html(currentPoint.altitude + ' müM');
     this._speed.html(this.getSpeedString(currentPoint.speed));

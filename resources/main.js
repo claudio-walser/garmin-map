@@ -6,6 +6,7 @@ class Main {
     this._errorHandler = new ErrorHandler();
     this._currentDate = false;
     this._currentActivity = false;
+    this._currentActivityName = '';
     this._mapSelector = '#map';
     this._calenderSelector = '.calendar';
     this._activitySelector = '.activity';
@@ -74,6 +75,7 @@ class Main {
         if (data && data.points) {
           this._currentActivity = data;
           this._loadedActivities[activityKey] = this._currentActivity;
+          this._currentActivityName = activityKey;
           this.initActivity(this._currentActivity);
         } else {
           this._errorHandler.error("Not able to load activity - sorry!")
@@ -81,8 +83,10 @@ class Main {
       }.bind(this));
     } else {
       this._currentActivity = this._loadedActivities[activityKey];
-      
-      this.initActivity(this._currentActivity);
+      if  (this._currentActivityName != activityKey) {
+        this._currentActivityName = activityKey;
+        this.initActivity(this._currentActivity);
+      }
     }
   }
 

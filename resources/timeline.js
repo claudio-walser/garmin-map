@@ -37,6 +37,7 @@ class Timeline {
   	this._timeline.attr('max', max);
     this._timeline.val(0);
     this._timeline.trigger('change');
+    $(this._selector).show();
   }
 
   start() {
