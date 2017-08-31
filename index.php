@@ -16,23 +16,8 @@
     <div id="body">
       <div id="info-overlay">
         <div class="calendar"></div>
-        
         <div class="activity"></div>
-        <div class="info">
-
-<!--           <div id="speed-graph"></div>
-
-          <span class="speed-wrapper">Geschwindigkeit: <span id="speed"></span> <br />Max: <span id="speed-max"></span></span>
-          <span class="duration-wrapper">Dauer: <span id="duration"></span></span>
-          <span class="temperature-wrapper">Temperatur: <span id="temperature"></span></span>
-          <span class="temperature-wrapper">Höhe: <span id="altitude"></span> <br />Max: <span id="altitude-max"></span></span> -->
-
-          <!-- 
-          <div class="wrapper">Geschwindigkeit: <span id="speed"></span></div>
-          <div class="wrapper">Datum und Zeit: <span id="datetime"></span></div>
-          <div class="wrapper">Temperatur: <span id="temperature"></span></div>
-          <div class="wrapper">Dauer: <span id="duration"></span></div> -->
-        </div>
+        <div class="info"></div>
         <div class="timeline"></div>
       </div>
       <div id="map"></div>
