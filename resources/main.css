@@ -17,6 +17,10 @@ html, body {
   position: relative;
 }
 
+.timeline {
+  display: none;
+}
+
 .timeline input[type="range"] {
   width: 100%;
   margin: auto;
@@ -26,8 +30,13 @@ html, body {
   display: none;
 }
 
+.activity {
+  display: none;
+}
+
 .info {
   margin-top: 15px;
+  display: none;
 }
 
 .main-info{
