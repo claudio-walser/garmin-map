@@ -29,20 +29,9 @@ class Main {
 
     this._activityInfo = new ActivityInfo(this._infoSelector);
 
-
-
-    // this._playSelector = '#play';
-    // this._stopSelector = '#play-stop';
-    // this._speedFactorSelector = '#speed-factor';
     this._secondsElapsed = 0;
     this._activities = [];
     this._loadedActivities = [];
-
-    // this._timeline.setPlaySelector(this._playSelector);
-    // this._timeline.setStopSelector(this._stopSelector);
-    // this._timeline.setSpeedFactorSelector(this._speedFactorSelector);
-
-
   }
 
   fetchCalendarDates() {
@@ -131,6 +120,7 @@ class Main {
   initActivity(activity) {
     this._map.setActivity(activity);
     this._activityInfo.setActivity(activity);
+    this._timeline.stop();
     this._timeline.updateMaxValue(activity.points.length - 1);
   }
 
