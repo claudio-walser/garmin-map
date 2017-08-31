@@ -26,9 +26,13 @@ html, body {
   display: none;
 }
 
+.info {
+  margin-top: 15px;
+}
+
 .main-info{
-  padding-top: 20px;
-  padding-left: 15px;
+  margin-top: 20px;
+  margin-left: 15px;
 }
 
 .info-wrapper {

@@ -13,20 +13,20 @@ class ActivityInfo {
     this._speedMax = $('<span></span>');
     this._speedWrapper = $('<div class="info-wrapper info-text"></div>');
     this._speedWrapper.append("<div class='box-title'>Speed</div>");
-    this._speedWrapper.append("<span class='title'>Max</span>");
+    this._speedWrapper.append("<span class='title'>Max </span>");
     this._speedWrapper.append(this._speedMax);
     this._speedWrapper.append('<br />');
-    this._speedWrapper.append("<span class='title'>Current</span>");
+    this._speedWrapper.append("<span class='title'>Current </span>");
     this._speedWrapper.append(this._speed);
 
     this._height = $('<span></span>');
     this._heightMax = $('<span></span>');
     this._heightWrapper = $('<div class="info-wrapper info-text"></div>');
     this._heightWrapper.append("<div class='box-title'>Height</div>");
-    this._heightWrapper.append("<span class='title'>Max</span>");
+    this._heightWrapper.append("<span class='title'>Max </span>");
     this._heightWrapper.append(this._heightMax);
     this._heightWrapper.append('<br />');
-    this._heightWrapper.append("<span class='title'>Current</span>");
+    this._heightWrapper.append("<span class='title'>Current </span>");
     this._heightWrapper.append(this._height);
 
     this._duration = $('<div></div>');
