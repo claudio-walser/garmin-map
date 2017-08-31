@@ -30,6 +30,7 @@ class Timeline {
 
   setValue(value) {
     this._timeline.val(value);
+    this._timeline.trigger('change');
   }
 
   setOnChangeHandler(handlerFunction) {

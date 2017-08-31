@@ -59,12 +59,12 @@ class Map {
         geodesic: true,
         strokeColor: color,
         strokeOpacity: 1.0,
-        strokeWeight: 2
+        strokeWeight: 4
       });
 
       google.maps.event.addListener(path, 'click', function(h) {
         this._updatePointHandler(index);
-      });
+      }.bind(this));
 
       path.setMap(this._map);       
 
