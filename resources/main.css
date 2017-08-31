@@ -1,3 +1,7 @@
+* {
+  font-size: 10px;
+}
+
 #map {
   height: 100%;
 }
@@ -20,4 +24,31 @@ html, body {
 
 .timeline input[value="Stop"] {
   display: none;
+}
+
+.main-info{
+  padding-top: 20px;
+  padding-left: 15px;
+}
+
+.info-wrapper {
+  float: left;
+}
+
+.info-text {
+  width:  150px;
+}
+
+
+.title {
+  font-weight: bold;
+}
+
+.box-title {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.clear {
+  clear: both;
 }
