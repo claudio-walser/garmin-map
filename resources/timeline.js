@@ -28,6 +28,10 @@ class Timeline {
     $(this._selector).append(timelineDiv);
   }
 
+  setValue(value) {
+    this._timeline.val(value);
+  }
+
   setOnChangeHandler(handlerFunction) {
     this._handlerFunction = handlerFunction;
     this._timeline.change(this._handlerFunction);

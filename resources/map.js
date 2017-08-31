@@ -22,6 +22,10 @@ class Map {
     this._marker = false;
   }
 
+  setUpdatePointHandler(handlerFunction) {
+    this._updatePointHandler = handlerFunction;
+  }
+
   setActivity(activity) {
     if (!activity.points || activity.points.length <= 0) {
       return;
@@ -56,6 +60,10 @@ class Map {
         strokeColor: color,
         strokeOpacity: 1.0,
         strokeWeight: 2
+      });
+
+      google.maps.event.addListener(path, 'click', function(h) {
+        this._updatePointHandler(index);
       });
 
       path.setMap(this._map);       

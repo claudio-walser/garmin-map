@@ -25,6 +25,7 @@ class Main {
     this._timeline.setOnChangeHandler(this.onTimelineChange.bind(this));
 
     this._map = new Map(this._mapSelector);
+    this._map.setUpdatePointHandler(this.setTimeLineValue.bind(this))
 
     this._activityInfo = new ActivityInfo(this._infoSelector);
 
@@ -131,6 +132,10 @@ class Main {
     this._map.setActivity(activity);
     this._activityInfo.setActivity(activity);
     this._timeline.updateMaxValue(activity.points.length - 1);
+  }
+
+  setTimeLineValue(index) {
+    this._timeline.setValue(index);
   }
 
   onTimelineChange(data) {

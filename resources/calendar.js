@@ -22,15 +22,6 @@ class Calendar {
 	    .tooltipEnabled(true)
 	    .colorRange(['#c6e48b', '#196127'])
 	    .onClick(this._handlerFunction);
-	    // .tooltipUnit('Einträge')
-	    // .locale({
-	    //   months: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
-	    //   days: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
-	    //   No: 'keine',
-	    //   on: 'an',
-	    //   Less: 'wenig',
-	    //   More: 'mehr'
-	    // });
 	  heatmap();
   }
 }
