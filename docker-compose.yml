@@ -1,0 +1,13 @@
+version: '3.2'
+services:
+  garmin-web:
+    container_name: garmin-web
+    image: webdevops/php-apache:debian-8-php7
+    volumes:
+      - ./:/app
+    environment:
+      - WEB_DOCUMENT_ROOT=/app
+      - WEB_DOCUMENT_INDEX=index.php
+    working_dir: /app
+    ports:
+      - "80:80"
