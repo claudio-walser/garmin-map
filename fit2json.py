@@ -1,16 +1,18 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
 from fitparse import FitFile
-from datetime import timedelta, datetime
-from pprint import pprint
+from datetime import timedelta
+from datetime import datetime
 import sys
 import json
 import os
 import googlemaps
+from pprint import pprint
+
 
 def semicircleToGradient(semicircle):
-    return int(semicircle) * ( 180.0 / 2 ** 31 )
+    return int(semicircle) * (180.0 / 2 ** 31)
+
 
 def stringifyDatetime(sport):
     sport['start']['dateobject'] = sport['start']['dateobject'].strftime('%Y-%m-%d %H:%M:%S')
@@ -22,6 +24,7 @@ def stringifyDatetime(sport):
         point['datetime'] = dateTime.strftime('%Y-%m-%d %H:%M:%S')
 
     return sport
+
 
 def interpolateLinear(start, end):
     timeDiff = end['dateobject'] - start['dateobject']
@@ -61,7 +64,6 @@ def interpolateLinear(start, end):
     else:
         speedStep = 0
 
-
     # calculate temperature steps
     if start['temperature'] > end['temperature']:
         temperatureDiff = start['temperature'] - end['temperature']
@@ -73,9 +75,8 @@ def interpolateLinear(start, end):
     else:
         temperatureStep = 0
 
-
     for i in range(0, num):
-        currentStep = i+1        
+        currentStep = i + 1
 
         # interpolate coordinates
         latTarget = start['lat'] + (currentStep * latSteps)
@@ -124,14 +125,14 @@ def interpolateLinear(start, end):
         interpolated.append(point)
 
     #return []
-    return interpolated 
+    return interpolated
 
 
 if len(sys.argv) < 2:
     print("Give a fitfile as the only parameter")
     sys.exit(1)
 
-with file('.google-maps-key') as f:
+with open('.google-maps-key') as f:
     gMapsKey = f.read()
 
 
@@ -142,7 +143,7 @@ if len(sys.argv) is 3:
 
 if not os.path.isfile(fitFilename):
     print("Cannot find given fitfile: %s" % (fitFilename))
-    sys.exit(1)    
+    sys.exit(1)
 
 fitfile = FitFile(fitFilename)
 
@@ -165,7 +166,7 @@ sport = {
     'datetime': False,
     'points': []
 
-}  
+}
 
 
 for sportRecord in fitfile.get_messages('sport'):
@@ -274,7 +275,7 @@ sport['start'] = start
 sport['end'] = {
     'lat': lastPoint['lat'],
     'lng': lastPoint['lng'],
-    'dateobject': lastPoint['dateobject']   
+    'dateobject': lastPoint['dateobject']
 }
 timeDiff = lastPoint['dateobject'] - firstPoint['dateobject']
 sport['duration'] = timeDiff.total_seconds()
